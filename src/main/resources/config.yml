@@ -1,0 +1,15 @@
+world: 'world'
+maxPlayers: 24
+needPlayers: 10
+centralChestsRadius: 50
+centralPointsMask:
+  1: '0 0 0'
+sqlSettings:
+  user: 'root'
+  password: ''
+  host: 'localhost'
+  port: 3306
+  database: 'data'
+locations:
+  1: '260 67 155'
+  2: '260 67 150'

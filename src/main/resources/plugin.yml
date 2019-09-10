@@ -1,0 +1,5 @@
+name: SkyWars
+version: 1.0.0
+author: func
+website: http:\\funcid.ru
+main: ru.func.skywars.SkyWars

@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="YamyApi">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Desktop/Develop/Other/Server/plugins/YamyApi.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/Desktop/Develop/Other/Server/plugins/YamyApi.jar!/" />
+    </SOURCES>
+  </library>
+</component>
