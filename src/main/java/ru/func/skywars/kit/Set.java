@@ -14,7 +14,7 @@ import java.util.List;
 public enum Set {
 
     WARRIOR(new WarriorKit()),
-    NO_ACTIVE_KIT(new NoActiveKit()),
+    NO_ACTIVE_KIT(null),
     ;
 
     private Settable settable;

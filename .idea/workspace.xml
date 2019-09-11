@@ -7,19 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="19319037-b7ef-4030-b1d1-b8dd6e9cffc6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/func/skywars/SkyWars.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/func/skywars/SkyWars.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/func/skywars/kit/WarriorKit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/func/skywars/kit/WarriorKit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/func/skywars/listener/ConnectionListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/func/skywars/listener/ConnectionListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/func/skywars/listener/DamageListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/func/skywars/listener/DamageListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/func/skywars/listener/InteractListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/func/skywars/listener/InteractListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/func/skywars/status/GameCloser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/func/skywars/status/GameCloser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/func/skywars/status/GameCycle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/func/skywars/status/GameCycle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/func/skywars/team/Team.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/func/skywars/team/Team.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/func/skywars/kit/WarriorKit.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/func/skywars/kit/WarriorKit.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/func/skywars/listener/ConnectionListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/func/skywars/listener/ConnectionListener.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/func/skywars/status/GameCycle$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/func/skywars/status/GameCycle$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/func/skywars/status/GameCycle.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/func/skywars/status/GameCycle.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/func/skywars/kit/NoActiveKit.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/func/skywars/kit/Set.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/func/skywars/kit/Set.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -109,7 +98,7 @@
       <workItem from="1567879224597" duration="10497000" />
       <workItem from="1567936055789" duration="16482000" />
       <workItem from="1568134442362" duration="12605000" />
-      <workItem from="1568198548882" duration="8001000" />
+      <workItem from="1568198548882" duration="8448000" />
     </task>
     <servers />
   </component>
