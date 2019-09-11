@@ -37,7 +37,7 @@ public class DamageListener implements Listener {
         player.setGameMode(GameMode.SPECTATOR);
 
         /* Удаляет игрока из команды */
-        for (Team team : Team.values())
+        for (Team team : Team.teams(skyWars.getTeams()))
             team.getPlayers().remove(player);
 
         /* Попытка завершить игру */
@@ -71,7 +71,13 @@ public class DamageListener implements Listener {
          */
         if (damager instanceof Projectile) {
             playerStatistic = skyWars.getPlayerStatistic().get(((Player) ((Projectile) damager).getShooter()).getUniqueId());
-            if (Objects.equals(Team.getPlayerTeam((Player) e.getEntity()), Team.getPlayerTeam((Player) (((Projectile) damager).getShooter())))) {
+            if (Objects.equals(
+                    Team.getPlayerTeam(
+                            (Player) e.getEntity(),
+                            skyWars.getTeams()
+                    ), Team.getPlayerTeam((Player) (((Projectile) damager).getShooter()
+                    ), skyWars.getTeams()))
+            ) {
                 e.setCancelled(true);
                 return;
             }
@@ -80,7 +86,7 @@ public class DamageListener implements Listener {
             playerStatistic.setHits(playerStatistic.getHits() + 1);
         } else if (damager instanceof Player) {
             playerStatistic = skyWars.getPlayerStatistic().get(damager.getUniqueId());
-            if (Objects.equals(Team.getPlayerTeam((Player) e.getEntity()), Team.getPlayerTeam((Player) damager))) {
+            if (Objects.equals(Team.getPlayerTeam((Player) e.getEntity(), skyWars.getTeams()), Team.getPlayerTeam((Player) damager, skyWars.getTeams()))) {
                 e.setCancelled(true);
                 return;
             }

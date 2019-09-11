@@ -33,6 +33,7 @@ public class SkyWars extends JavaPlugin {
     private int needPlayersToStart = getConfig().getInt("needPlayers");
     private Connection connection;
     private int playersInTeam = getConfig().getInt("playersInTeam");
+    private int teams = getConfig().getInt("teams");
 
     @Override
     public void onEnable() {

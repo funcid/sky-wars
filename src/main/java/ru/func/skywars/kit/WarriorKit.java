@@ -22,7 +22,10 @@ public class WarriorKit implements Settable {
             .setDisplayName(name)
             .setLore(
                     "",
-                    "§7тут описание класса воин"
+                    "§6* §fЦена: §6" + cost,
+                    "§6* §fОписание:",
+                    "    §7Отличный, мощный класс,",
+                    "    §7враги не совладают с ним."
             ).then()
             .build();
 

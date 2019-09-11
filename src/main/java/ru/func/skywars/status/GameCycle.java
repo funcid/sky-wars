@@ -71,7 +71,7 @@ public class GameCycle {
                                         }
                                 );
                                 int i = 0;
-                                for (Team team : Team.values()) {
+                                for (Team team : Team.teams(skyWars.getTeams())) {
                                     for (Player player : team.getPlayers())
                                         player.teleport(spawnLocations.get(i));
                                     i++;

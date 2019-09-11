@@ -20,7 +20,7 @@ public class GameCloser {
 
             int aliveTeams = 0;
             Team winner = null;
-            for (Team team : Team.values()) {
+            for (Team team : Team.teams(skyWars.getTeams())) {
                 if (team.getPlayers().size() > 0) {
                     winner = team;
                     aliveTeams++;

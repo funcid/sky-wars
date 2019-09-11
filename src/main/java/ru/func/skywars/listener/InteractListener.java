@@ -107,7 +107,7 @@ public class InteractListener implements Listener {
                 PerPlayerGuiBuilder guiBuilder = guiPrototype.get().setTitle("§e§l[ §f§lВыбор команды §e§l]");
 
                 int i = 18;
-                for (Team team : Team.values()) {
+                for (Team team : Team.teams(skyWars.getTeams())) {
 
                     ItemStack teamIcon = team.getIcon().get();
                     ItemMeta itemMeta = teamIcon.getItemMeta();
@@ -125,7 +125,7 @@ public class InteractListener implements Listener {
                     guiBuilder.setIcon(i++, new ConsumerableIcon(teamIcon, event -> {
                         Team currentTeam = Team.valueOf(ChatColor.stripColor(event.getCurrentItem().getItemMeta().getLore().get(0)));
                         if (currentTeam.getPlayers().size() < skyWars.getPlayersInTeam()) {
-                            Team.getPlayerTeam(player).getPlayers().remove(player);
+                            Team.getPlayerTeam(player, skyWars.getTeams()).getPlayers().remove(player);
 
                             currentTeam.getPlayers().add(player);
                             player.sendMessage("[§bi§f] §7Вы выбрали команду " + currentTeam.getName());

@@ -61,7 +61,7 @@ public class ConnectionListener implements Listener {
             if (!loadStats(player))
                 player.kickPlayer("Шалит база данных, я тут не виноват ps func.");
             skyWars.getPlayers().add(player.getUniqueId());
-            Team.getSmallestTeam().getPlayers().add(player);
+            Team.getSmallestTeam(skyWars.getTeams()).getPlayers().add(player);
             player.getInventory().addItem(voteKit);
             player.getInventory().addItem(voteTeam);
         } else
@@ -77,7 +77,7 @@ public class ConnectionListener implements Listener {
         e.setQuitMessage("[§bi§f] §l" + player.getName() + " §7вышел из игры.");
 
         /* Удаляет игрока из команды */
-        for (Team team : Team.values())
+        for (Team team : Team.teams(skyWars.getTeams()))
             team.getPlayers().remove(player);
 
         /* Проверяет существует ли экземпляр статистики игрока */

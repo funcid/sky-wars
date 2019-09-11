@@ -109,10 +109,10 @@ public enum Team {
     /**
      * @return команду в которой наименьшее количество игроков
      */
-    public static Team getSmallestTeam() {
+    public static Team getSmallestTeam(int teamsNeed) {
         Team smallest = Team.WHITE;
 
-        for (Team team : Team.values())
+        for (Team team : Team.teams(teamsNeed))
             if (team.getPlayers().size() < smallest.getPlayers().size())
                 smallest = team;
 
@@ -123,11 +123,23 @@ public enum Team {
      * @param player игрок чью команду надо узнать
      * @return команду в которой находится игрок
      */
-    public static Team getPlayerTeam(Player player) {
-        for (Team team : Team.values())
+    public static Team getPlayerTeam(Player player, int teamsNeed) {
+        for (Team team : Team.teams(teamsNeed))
             if (team.getPlayers().contains(player))
                 return team;
 
         return null;
+    }
+
+    /**
+     * @param teamsNeed сколько команд нужно
+     * @return необходимые команды
+     */
+    public static Team[] teams(int teamsNeed) {
+        Team[] teams = new Team[teamsNeed];
+
+        System.arraycopy(values(), 0, teams, 0, teamsNeed);
+
+        return teams;
     }
 }
