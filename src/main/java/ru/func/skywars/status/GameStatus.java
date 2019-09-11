@@ -10,7 +10,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum GameStatus {
 
-    STARTING(10, "Начало"),
+    STARTING(20, "Начало"),
     STARTED(200, "Игра"),
     REOPEN(220, "Сундуки перезаполнены"),
     DEATH_MATCH(300, "Последний бой"),

@@ -2,25 +2,24 @@ package ru.func.skywars.listener;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
 import ru.func.skywars.SkyWars;
 import ru.func.skywars.kit.Set;
 import ru.func.skywars.player.PlayerStatistic;
 import ru.func.skywars.player.Shuffler;
 import ru.func.skywars.status.GameStatus;
+import ru.func.skywars.team.Team;
+import ru.yamycraft.api.gui.builder.item.ItemStackBuilderImpl;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author func 08.09.2019
@@ -28,24 +27,22 @@ import java.util.List;
 public class ConnectionListener implements Listener {
 
     private final SkyWars skyWars;
-    private List<Location> spawnLocations = new ArrayList<>();
-    private int counter = 0;
+
+    private ItemStack voteKit = new ItemStackBuilderImpl()
+            .setMaterial(Material.SLIME_BALL)
+            .withItemMeta()
+            .setDisplayName("§f§l<< §6Выбор набора §f§l>>")
+            .then()
+            .build();
+    private ItemStack voteTeam = new ItemStackBuilderImpl()
+            .setMaterial(Material.QUARTZ)
+            .withItemMeta()
+            .setDisplayName("§f§l<< §6Выбор команды §f§l>>")
+            .then()
+            .build();
 
     public ConnectionListener(SkyWars skyWars) {
         this.skyWars = skyWars;
-
-        World world = Bukkit.getWorld(skyWars.getConfig().getString("world"));
-        ConfigurationSection configurationSection = skyWars.getConfig().getConfigurationSection("locations");
-        for (String string : configurationSection.getKeys(false)) {
-            String[] cords = configurationSection.getString(string).split("\\s+");
-            spawnLocations.add(new Location(
-                    world,
-                    Double.parseDouble(cords[0]),
-                    Double.parseDouble(cords[1]),
-                    Double.parseDouble(cords[2])
-            ));
-        }
-        System.out.println(spawnLocations.size() + " <<<");
     }
 
     @EventHandler
@@ -62,11 +59,11 @@ public class ConnectionListener implements Listener {
         player.setGameMode(GameMode.ADVENTURE);
         if (skyWars.getGameCycle().getGameStatus().equals(GameStatus.STARTING)) {
             if (!loadStats(player))
-                player.kickPlayer("Что то пошло не так при подключении.");
+                player.kickPlayer("Шалит база данных, я тут не виноват ps func.");
             skyWars.getPlayers().add(player.getUniqueId());
-            player.teleport(spawnLocations.get(counter));
-            counter++;
-            System.out.println(spawnLocations.size() + " <<<");
+            Team.getSmallestTeam().getPlayers().add(player);
+            player.getInventory().addItem(voteKit);
+            player.getInventory().addItem(voteTeam);
         } else
             player.setGameMode(GameMode.SPECTATOR);
     }
@@ -79,6 +76,10 @@ public class ConnectionListener implements Listener {
         /* Написание о том, что игрок отключился */
         e.setQuitMessage("[§bi§f] §l" + player.getName() + " §7вышел из игры.");
 
+        /* Удаляет игрока из команды */
+        for (Team team : Team.values())
+            team.getPlayers().remove(player);
+
         /* Проверяет существует ли экземпляр статистики игрока */
         if (skyWars.getPlayerStatistic().containsKey(player.getUniqueId())) {
 
@@ -90,10 +91,8 @@ public class ConnectionListener implements Listener {
             /* Сохраняет статистику игрока */
             saveStats(player, 1);
         }
-        if (skyWars.getGameCycle().getGameStatus().equals(GameStatus.STARTING)) {
-            counter--;
+        if (skyWars.getGameCycle().getGameStatus().equals(GameStatus.STARTING))
             return;
-        }
 
         /* Попытка завершить игру */
         if (!skyWars.getGameCycle().getGameStatus().equals(GameStatus.STARTING))
@@ -117,6 +116,7 @@ public class ConnectionListener implements Listener {
 
 
             resultSet = preparedStatement.executeQuery();
+
             if (resultSet.next()) {
                 skyWars.getPlayerStatistic().put(player.getUniqueId(), PlayerStatistic.builder()
                         .kills(resultSet.getInt("kills"))

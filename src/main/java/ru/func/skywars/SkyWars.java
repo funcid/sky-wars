@@ -26,13 +26,13 @@ import java.util.*;
 @Getter
 public class SkyWars extends JavaPlugin {
 
-    private int maxPlayers = getConfig().getInt("maxPlayers");
     private Map<UUID, PlayerStatistic> playerStatistic = new HashMap<>();
     private List<UUID> players = new ArrayList<>();
     private GameCycle gameCycle = new GameCycle(this);
     private GameCloser gameCloser = new GameCloser(this);
     private int needPlayersToStart = getConfig().getInt("needPlayers");
     private Connection connection;
+    private int playersInTeam = getConfig().getInt("playersInTeam");
 
     @Override
     public void onEnable() {

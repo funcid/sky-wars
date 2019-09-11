@@ -1,6 +1,7 @@
 package ru.func.skywars.player;
 
 import ru.func.skywars.kit.Set;
+import ru.func.skywars.team.Team;
 
 import java.util.List;
 

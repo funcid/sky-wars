@@ -3,12 +3,17 @@ package ru.func.skywars.status;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import ru.func.skywars.SkyWars;
 import ru.func.skywars.listener.ChestOpenListener;
-import ru.yamycraft.api.gui.builder.item.ItemStackBuilderImpl;
+import ru.func.skywars.team.Team;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author func 07.09.2019
@@ -24,21 +29,26 @@ public class GameCycle {
     @Setter
     private int time;
     private boolean enoughPlayers = false;
+    private List<Location> spawnLocations = new ArrayList<>();
 
     public GameCycle(SkyWars skyWars) {
         this.skyWars = skyWars;
+
+        World world = Bukkit.getWorld(skyWars.getConfig().getString("world"));
+        ConfigurationSection configurationSection = skyWars.getConfig().getConfigurationSection("locations");
+        for (String string : configurationSection.getKeys(false)) {
+            String[] cords = configurationSection.getString(string).split("\\s+");
+            spawnLocations.add(new Location(
+                    world,
+                    Double.parseDouble(cords[0]),
+                    Double.parseDouble(cords[1]),
+                    Double.parseDouble(cords[2])
+            ));
+        }
     }
 
     public void begin() {
         new BukkitRunnable() {
-
-            ItemStack voteKit = new ItemStackBuilderImpl()
-                    .setMaterial(Material.SLIME_BALL)
-                    .withItemMeta()
-                    .setDisplayName("§f§l<< §6Выбор набора §f§l>>")
-                    .then()
-                    .build();
-
             public void run() {
 
                 Bukkit.broadcastMessage(time + " <<");
@@ -47,24 +57,25 @@ public class GameCycle {
                         enoughPlayers = Bukkit.getOnlinePlayers().size() >= skyWars.getNeedPlayersToStart();
 
                         if (time == 0) {
-                            Bukkit.getOnlinePlayers()
-                                    .forEach(player -> {
-                                        skyWars.getPlayers().add(player.getUniqueId());
-                                        player.getInventory().addItem(voteKit);
-                                    });
+                            Bukkit.getOnlinePlayers().forEach(player -> skyWars.getPlayers().add(player.getUniqueId()));
                         } else if (GameStatus.STARTING.getTime() == time) {
                             if (enoughPlayers) {
                                 Bukkit.broadcastMessage("[§bi§f] §7Игра начинается!");
                                 gameStatus = GameStatus.STARTED;
                                 Bukkit.getOnlinePlayers().forEach(player -> {
+                                            player.getInventory().clear();
                                             skyWars.getPlayerStatistic().get(player.getUniqueId())
                                                     .getCurrentKit()
                                                     .getSettable()
                                                     .dress(player);
-                                            player.getLocation().subtract(0, 1, 0).getBlock().setType(Material.AIR);
-                                            player.getLocation().subtract(0, 2, 0).getBlock().setType(Material.AIR);
                                         }
                                 );
+                                int i = 0;
+                                for (Team team : Team.values()) {
+                                    for (Player player : team.getPlayers())
+                                        player.teleport(spawnLocations.get(i));
+                                    i++;
+                                }
                             } else
                                 time = GameStatus.STARTING.getTime() / 2;
                         }

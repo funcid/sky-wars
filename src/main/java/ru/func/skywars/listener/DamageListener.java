@@ -14,6 +14,9 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import ru.func.skywars.SkyWars;
 import ru.func.skywars.player.PlayerStatistic;
+import ru.func.skywars.team.Team;
+
+import java.util.Objects;
 
 /**
  * @author func 08.09.2019
@@ -32,6 +35,10 @@ public class DamageListener implements Listener {
         /* Удаление игрока из списка живых и изменение режима игры на наблюдателя */
         skyWars.getPlayers().remove(player.getUniqueId());
         player.setGameMode(GameMode.SPECTATOR);
+
+        /* Удаляет игрока из команды */
+        for (Team team : Team.values())
+            team.getPlayers().remove(player);
 
         /* Попытка завершить игру */
         skyWars.getGameCloser().tryCloseGame();
@@ -64,11 +71,19 @@ public class DamageListener implements Listener {
          */
         if (damager instanceof Projectile) {
             playerStatistic = skyWars.getPlayerStatistic().get(((Player) ((Projectile) damager).getShooter()).getUniqueId());
+            if (Objects.equals(Team.getPlayerTeam((Player) e.getEntity()), Team.getPlayerTeam((Player) (((Projectile) damager).getShooter())))) {
+                e.setCancelled(true);
+                return;
+            }
             if (damager instanceof Arrow)
                 playerStatistic.setDamage(playerStatistic.getDamage() + e.getDamage());
             playerStatistic.setHits(playerStatistic.getHits() + 1);
         } else if (damager instanceof Player) {
             playerStatistic = skyWars.getPlayerStatistic().get(damager.getUniqueId());
+            if (Objects.equals(Team.getPlayerTeam((Player) e.getEntity()), Team.getPlayerTeam((Player) damager))) {
+                e.setCancelled(true);
+                return;
+            }
             playerStatistic.setDamage(playerStatistic.getDamage() + e.getDamage());
         }
     }

@@ -6,7 +6,19 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="19319037-b7ef-4030-b1d1-b8dd6e9cffc6" name="Default Changelist" comment="" />
+    <list default="true" id="19319037-b7ef-4030-b1d1-b8dd6e9cffc6" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/func/skywars/SkyWars.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/func/skywars/SkyWars.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/func/skywars/listener/ConnectionListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/func/skywars/listener/ConnectionListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/func/skywars/listener/DamageListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/func/skywars/listener/DamageListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/func/skywars/listener/InteractListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/func/skywars/listener/InteractListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/func/skywars/player/Shuffler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/func/skywars/player/Shuffler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/func/skywars/status/GameCloser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/func/skywars/status/GameCloser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/func/skywars/status/GameCycle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/func/skywars/status/GameCycle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/func/skywars/status/GameStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/func/skywars/status/GameStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.yml" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,11 +45,14 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Enum" />
         <option value="Interface" />
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MavenImportPreferences">
     <option name="importingSettings">
@@ -47,11 +62,13 @@
     </option>
   </component>
   <component name="ProjectId" id="1QWH26OMUXbjBBFIsXjGGn3hLmV" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="GenerateAntBuildDialog.backupFiles" value="true" />
     <property name="GenerateAntBuildDialog.enableUiFormCompile" value="true" />
     <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
     <property name="GenerateAntBuildDialog.outputFileNameProperty" value="skywars" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$USER_HOME$/Desktop/Develop/Other/Server/plugins" />
@@ -89,11 +106,25 @@
       <updated>1567879221745</updated>
       <workItem from="1567879224597" duration="10497000" />
       <workItem from="1567936055789" duration="16482000" />
-      <workItem from="1568134442362" duration="7748000" />
+      <workItem from="1568134442362" duration="12605000" />
+      <workItem from="1568198548882" duration="6604000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
