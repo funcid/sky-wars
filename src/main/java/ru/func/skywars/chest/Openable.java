@@ -14,6 +14,25 @@ public interface Openable {
 
     Random RANDOM = new Random();
 
+    ItemStack[] FOOD = {
+            new ItemStackBuilderImpl()
+                    .setMaterial(Material.COOKED_BEEF)
+                    .setAmount(32)
+                    .build(),
+            new ItemStackBuilderImpl()
+                    .setMaterial(Material.APPLE)
+                    .setAmount(16)
+                    .build(),
+            new ItemStackBuilderImpl()
+                    .setMaterial(Material.COOKED_CHICKEN)
+                    .setAmount(24)
+                    .build(),
+    };
+
+    ItemStack[] WEAPON = {
+
+    };
+
     ItemStack[] BLOCKS = {
             new ItemStackBuilderImpl()
                     .setMaterial(Material.DIRT)

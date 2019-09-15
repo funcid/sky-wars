@@ -14,6 +14,12 @@ import java.util.List;
 public enum Set {
 
     WARRIOR(new WarriorKit()),
+    FARMER(new FarmerKit()),
+    TERRORIST(new TerroristKit()),
+    SNOWMAN(new SnowmanKit()),
+    BLACKSMITH(new BlacksmithKit()),
+    IRONCLAD(new IroncladKit()),
+    SORCERER(new SorcererKil()),
     NO_ACTIVE_KIT(null),
     ;
 

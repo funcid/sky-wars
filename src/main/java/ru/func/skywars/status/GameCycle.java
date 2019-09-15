@@ -3,6 +3,7 @@ package ru.func.skywars.status;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
@@ -64,6 +65,7 @@ public class GameCycle {
                                 gameStatus = GameStatus.STARTED;
                                 Bukkit.getOnlinePlayers().forEach(player -> {
                                             player.getInventory().clear();
+                                            player.setGameMode(GameMode.SURVIVAL);
                                             skyWars.getPlayerStatistic().get(player.getUniqueId())
                                                     .getCurrentKit()
                                                     .getSettable()

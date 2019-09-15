@@ -94,6 +94,9 @@ public class PericentralChest implements Openable {
 
                 BLOCKS[RANDOM.nextInt(BLOCKS.length)],
 
+                FOOD[RANDOM.nextInt(FOOD.length)],
+                FOOD[RANDOM.nextInt(FOOD.length)],
+
                 heap[RANDOM.nextInt(heap.length)]
         );
     }

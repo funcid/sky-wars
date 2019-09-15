@@ -1,6 +1,5 @@
 package ru.func.skywars.listener;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -22,6 +21,7 @@ import ru.yamycraft.api.gui.icon.NotClickableIcon;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.function.Supplier;
 
 /**
@@ -30,6 +30,7 @@ import java.util.function.Supplier;
 public class InteractListener implements Listener {
 
     private SkyWars skyWars;
+    private Random random = new Random();
     private Supplier<PerPlayerGuiBuilder> guiPrototype = () -> PerPlayerGuiBuilder.generate(45)
             .setLayout(
                     new LayoutBuilder()
@@ -38,7 +39,7 @@ public class InteractListener implements Listener {
                                     new NotClickableIcon(
                                             new ItemStackBuilderImpl()
                                                     .setMaterial(Material.STAINED_GLASS_PANE)
-                                                    .setData(7)
+                                                    .setData(random.nextInt(16))
                                                     .withItemMeta()
                                                     .setDisplayName("§7<< пустота >>")
                                                     .then()
@@ -67,7 +68,7 @@ public class InteractListener implements Listener {
         ) {
             /* Если в руках слизь */
             if (player.getInventory().getItemInMainHand().getType().equals(Material.SLIME_BALL)) {
-                PerPlayerGuiBuilder guiBuilder = guiPrototype.get().setTitle("§e§l[ §f§lВыбор класса §e§l]");
+                PerPlayerGuiBuilder guiBuilder = guiPrototype.get().setTitle("Выбор класса");
 
                 PlayerStatistic playerStatistic = skyWars.getPlayerStatistic().get(player.getUniqueId());
 
@@ -80,14 +81,17 @@ public class InteractListener implements Listener {
                     /* Замена оригинального названия на название содержащее информацию о наличии данного набора */
                     ItemStack itemStack = kit.getSettable().getIcon().get();
                     ItemMeta itemMeta = itemStack.getItemMeta();
-                    itemMeta.setDisplayName(
-                            itemMeta.getDisplayName() +
-                                    (playerStatistic.getKits().contains(kit) ? " | §a§lДОСТУПНО" : " | §c§lНЕ ДОСТУПНО")
-                    );
+                    if (playerStatistic.getCurrentKit().equals(kit)) {
+                        itemMeta.setDisplayName(itemMeta.getDisplayName() + " | §a§lВЫБРАНО");
+                        itemMeta.addEnchant(Enchantment.LUCK, 1, false);
+                    } else if (playerStatistic.getKits().contains(kit)) {
+                        itemMeta.setDisplayName(itemMeta.getDisplayName() + " | §7§lДОСТУПНО");
+                    } else
+                        itemMeta.setDisplayName(itemMeta.getDisplayName() + " | §6§lКУПИТЬ");
                     itemStack.setItemMeta(itemMeta);
 
                     /* Выставление иконки в свое место и написание обработчика */
-                    guiBuilder.setIcon(i, new ConsumerableIcon(itemStack, event -> {
+                    guiBuilder.setIcon(i++, new ConsumerableIcon(itemStack, event -> {
                         if (playerStatistic.getKits().contains(kit)) {
                             playerStatistic.setCurrentKit(kit);
                             player.sendMessage("[§bi§f] §7Вы выбрали класс " + kit.getSettable().getName());
@@ -104,9 +108,9 @@ public class InteractListener implements Listener {
             /* Если в руках кварц */
             else if (player.getInventory().getItemInMainHand().getType().equals(Material.QUARTZ)) {
 
-                PerPlayerGuiBuilder guiBuilder = guiPrototype.get().setTitle("§e§l[ §f§lВыбор команды §e§l]");
+                PerPlayerGuiBuilder guiBuilder = guiPrototype.get().setTitle("Выбор команды");
 
-                int i = 18;
+                int i = skyWars.getTeams() > 7 ? 18 : 19;
                 for (Team team : Team.teams(skyWars.getTeams())) {
 
                     ItemStack teamIcon = team.getIcon().get();
@@ -116,25 +120,75 @@ public class InteractListener implements Listener {
                         itemMeta.addEnchant(Enchantment.LUCK, 1, true);
 
                     List<String> lore = new ArrayList<>();
-                    lore.add("§8" + team.name());
+                    lore.add("");
                     for (Player currentPlayer : team.getPlayers())
-                        lore.add("§6* §7" + currentPlayer.getName());
+                        lore.add("§6* §f" + currentPlayer.getName());
                     itemMeta.setLore(lore);
                     teamIcon.setItemMeta(itemMeta);
 
                     guiBuilder.setIcon(i++, new ConsumerableIcon(teamIcon, event -> {
-                        Team currentTeam = Team.valueOf(ChatColor.stripColor(event.getCurrentItem().getItemMeta().getLore().get(0)));
-                        if (currentTeam.getPlayers().size() < skyWars.getPlayersInTeam()) {
+                        if (team.getPlayers().size() < skyWars.getPlayersInTeam()) {
                             Team.getPlayerTeam(player, skyWars.getTeams()).getPlayers().remove(player);
 
-                            currentTeam.getPlayers().add(player);
-                            player.sendMessage("[§bi§f] §7Вы выбрали команду " + currentTeam.getName());
+                            team.getPlayers().add(player);
+                            player.sendMessage("[§bi§f] §7Вы выбрали команду " + team.getName());
                         } else
                             player.sendMessage("[§bi§f] §7Команда переполнена!");
                         player.closeInventory();
 
                     }));
                 }
+
+                guiBuilder.getGui().open(player);
+            } else if (player.getInventory().getItemInMainHand().getType().equals(Material.PAPER)) {
+
+                PerPlayerGuiBuilder guiBuilder = guiPrototype.get().setTitle("Ваша статистика");
+
+                PlayerStatistic playerStatistic = skyWars.getPlayerStatistic().get(player.getUniqueId());
+
+                /* Вывод статистики дальнего боя */
+                guiBuilder.setIcon(20, new NotClickableIcon(new ItemStackBuilderImpl()
+                        .setMaterial(Material.BOW)
+                        .withItemMeta()
+                        .setDisplayName("§eДальний бой")
+                        .setLore(
+                                "",
+                                String.format("§fМеткость: §6%s%s", playerStatistic.getHits()/playerStatistic.getStrikes() * 100, "%"),
+                                "§fУбийств из лука: §6" + playerStatistic.getBowKills(),
+                                "§fВыстрелов: §6" + playerStatistic.getStrikes(),
+                                "§fПопаданий: §6" + playerStatistic.getHits()
+                        ).then()
+                        .build()
+                ));
+
+                /* Вывод общей статистики */
+                guiBuilder.setIcon(22, new NotClickableIcon(new ItemStackBuilderImpl()
+                        .setMaterial(Material.ENDER_PEARL)
+                        .withItemMeta()
+                        .setDisplayName("§eОбщая статистика")
+                        .setLore(
+                                "",
+                                "§fВыйграшей: §6" + playerStatistic.getWins(),
+                                "§fСыграно игр: §6" + playerStatistic.getGames(),
+                                String.format("§fВремени сыграно: §6%s (мин)", playerStatistic.getGameTime()/60_000),
+                                "§fСундуков открыто: §6" + playerStatistic.getChestOpened(),
+                                String.format("§fСобрано наборов: §6%s/%d", playerStatistic.getKits().size() - 1, Set.values().length - 1)
+                        ).then()
+                        .build()
+                ));
+
+                /* Вывод статистики ближнего боя */
+                guiBuilder.setIcon(24, new NotClickableIcon(new ItemStackBuilderImpl()
+                        .setMaterial(Material.IRON_SWORD)
+                        .withItemMeta()
+                        .setDisplayName("§eБлижний бой")
+                        .setLore(
+                                "",
+                                String.format("§fНанесено урона: §6%.2fK", playerStatistic.getDamage() / 1000D),
+                                "§fУбийств в ближнем бою: §6" + playerStatistic.getKills()
+                        ).then()
+                        .build()
+                ));
 
                 guiBuilder.getGui().open(player);
             }

@@ -116,6 +116,8 @@ public class CommonChest implements Openable {
                 BLOCKS[RANDOM.nextInt(BLOCKS.length)],
                 BLOCKS[RANDOM.nextInt(BLOCKS.length)],
 
+                FOOD[RANDOM.nextInt(FOOD.length)],
+
                 heap[RANDOM.nextInt(heap.length)],
                 heap[RANDOM.nextInt(heap.length)],
                 heap[RANDOM.nextInt(heap.length)]

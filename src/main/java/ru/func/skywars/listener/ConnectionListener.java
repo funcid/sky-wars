@@ -40,6 +40,12 @@ public class ConnectionListener implements Listener {
             .setDisplayName("§f§l<< §6Выбор команды §f§l>>")
             .then()
             .build();
+    private ItemStack playerStatistic = new ItemStackBuilderImpl()
+            .setMaterial(Material.PAPER)
+            .withItemMeta()
+            .setDisplayName("§f§l<< §6Ваша статистика §f§l>>")
+            .then()
+            .build();
 
     public ConnectionListener(SkyWars skyWars) {
         this.skyWars = skyWars;
@@ -62,8 +68,9 @@ public class ConnectionListener implements Listener {
                 player.kickPlayer("Шалит база данных, я тут не виноват ps func.");
             skyWars.getPlayers().add(player.getUniqueId());
             Team.getSmallestTeam(skyWars.getTeams()).getPlayers().add(player);
-            player.getInventory().addItem(voteKit);
             player.getInventory().addItem(voteTeam);
+            player.getInventory().addItem(voteKit);
+            player.getInventory().addItem(playerStatistic);
         } else
             player.setGameMode(GameMode.SPECTATOR);
     }
@@ -217,7 +224,6 @@ public class ConnectionListener implements Listener {
             }
             Bukkit.getLogger().info(player.getName() + " сохранен.");
         } catch (SQLException e) {
-            e.printStackTrace();
             if (i < 3)
                 saveStats(player, ++i);
         } finally {
