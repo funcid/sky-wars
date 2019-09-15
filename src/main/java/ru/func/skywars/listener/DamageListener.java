@@ -59,6 +59,10 @@ public class DamageListener implements Listener {
     @EventHandler
     public void playerDamageEvent(EntityDamageByEntityEvent e) {
 
+        if (!skyWars.isActiveDamage()) {
+            e.setCancelled(true);
+            return;
+        }
         if (!(e.getEntity() instanceof Player))
             return;
 

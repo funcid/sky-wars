@@ -16,7 +16,7 @@ import java.util.function.Supplier;
 public class IroncladKit implements Settable {
 
     @Getter
-    private String name = "§eБроненосец";
+    private String name = "§eБроневик";
     @Getter
     private int cost = 0;
     @Getter

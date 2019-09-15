@@ -31,6 +31,7 @@ public class GameCycle {
     private int time;
     private boolean enoughPlayers = false;
     private List<Location> spawnLocations = new ArrayList<>();
+    private Location deathmathLocation;
 
     public GameCycle(SkyWars skyWars) {
         this.skyWars = skyWars;
@@ -46,13 +47,19 @@ public class GameCycle {
                     Double.parseDouble(cords[2])
             ));
         }
+        String[] cords = skyWars.getConfig().getString("deathmath_location").split("\\s+");
+        deathmathLocation = new Location(
+                world,
+                Double.parseDouble(cords[0]),
+                Double.parseDouble(cords[1]),
+                Double.parseDouble(cords[2])
+        );
     }
 
     public void begin() {
         new BukkitRunnable() {
             public void run() {
 
-                Bukkit.broadcastMessage(time + " <<");
                 switch (gameStatus) {
                     case STARTING:
                         enoughPlayers = Bukkit.getOnlinePlayers().size() >= skyWars.getNeedPlayersToStart();
@@ -83,24 +90,36 @@ public class GameCycle {
                         }
                         break;
                     case STARTED:
-                        if (GameStatus.STARTED.getTime() == time) {
+                        int dt = GameStatus.STARTED.getTime() - time;
+                        if (time - GameStatus.STARTING.getTime() == 5)
+                            skyWars.setActiveDamage(true);
+                        else if (dt == 30) {
+                            Bukkit.broadcastMessage("[§bi§f] §7Сундуки будут перезаполнены через 30 секунд!");
+                        } else if (dt < 6 && dt > 0) {
+                            Bukkit.broadcastMessage(String.format("[§bi§f] §7Сундуки будут перезаполнены через %s секунд!", dt));
+                        } else if (GameStatus.STARTED.getTime() == time) {
                             ChestOpenListener.getOpenChests().clear();
                             Bukkit.broadcastMessage("[§bi§f] §7Сундуки перезаполнены!");
                             gameStatus = GameStatus.REOPEN;
                         }
                         break;
                     case REOPEN:
-                        int dt = GameStatus.REOPEN.getTime() - time;
-                        if (dt < 5 && dt > -1)
-                            Bukkit.broadcastMessage(String.format("[§bi§f] §7Последний бой начнется через %d с.", ++dt));
+                        int dx = GameStatus.REOPEN.getTime() - time;
+                        if (dx < 6 && dx > 0)
+                            Bukkit.broadcastMessage(String.format("[§bi§f] §7Последний бой начнется через %d с.", dx));
                         else if (GameStatus.REOPEN.getTime() == time) {
+                            Bukkit.getOnlinePlayers().forEach(player -> player.teleport(deathmathLocation));
                             Bukkit.broadcastMessage("[§bi§f] §7Начинается последний бой!");
+                            skyWars.setActiveDamage(false);
                             gameStatus = GameStatus.DEATH_MATCH;
                         }
                         break;
                     case DEATH_MATCH:
-                        if (GameStatus.DEATH_MATCH.getTime() == time) {
+                        if (time - GameStatus.REOPEN.getTime() == 10)
+                            skyWars.setActiveDamage(true);
+                        else if (GameStatus.DEATH_MATCH.getTime() == time) {
                             Bukkit.broadcastMessage("[§bi§f] §7Закрытие сервера. Ничья.");
+                            skyWars.setActiveDamage(false);
                             gameStatus = GameStatus.ENDING;
                         }
                         break;

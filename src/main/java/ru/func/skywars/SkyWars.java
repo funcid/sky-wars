@@ -1,6 +1,7 @@
 package ru.func.skywars;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.World;
@@ -34,6 +35,8 @@ public class SkyWars extends JavaPlugin {
     private Connection connection;
     private int playersInTeam = getConfig().getInt("playersInTeam");
     private int teams = getConfig().getInt("teams");
+    @Setter
+    private boolean activeDamage = false;
 
     @Override
     public void onEnable() {

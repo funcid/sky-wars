@@ -15,7 +15,7 @@ import java.util.function.Supplier;
 public class SorcererKil implements Settable {
 
     @Getter
-    private String name = "§eЧаровальщик";
+    private String name = "§eКолдун";
     @Getter
     private int cost = 0;
     @Getter
@@ -34,7 +34,11 @@ public class SorcererKil implements Settable {
             .build();
 
     private ItemStack table = new ItemStack(Material.ENCHANTMENT_TABLE);
-    private ItemStack lapis = new ItemStack(Material.LAPIS_ORE, 64);
+    private ItemStack lapis = new ItemStackBuilderImpl()
+            .setMaterial(Material.INK_SACK)
+            .setAmount(64)
+            .setData(4)
+            .build();
     private ItemStack potions = new ItemStack(Material.EXP_BOTTLE, 64);
 
     public void dress(Player player) {

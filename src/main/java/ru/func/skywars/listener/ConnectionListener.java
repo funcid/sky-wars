@@ -16,6 +16,11 @@ import ru.func.skywars.player.Shuffler;
 import ru.func.skywars.status.GameStatus;
 import ru.func.skywars.team.Team;
 import ru.yamycraft.api.gui.builder.item.ItemStackBuilderImpl;
+import ru.yamycraft.api.scoreboard.builder.PersonalSidebarBuilder;
+import ru.yamycraft.api.scoreboard.text.EmptyText;
+import ru.yamycraft.api.scoreboard.text.ScrollableText;
+import ru.yamycraft.api.scoreboard.text.SimpleText;
+import ru.yamycraft.api.scoreboard.update.Updater;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -71,6 +76,30 @@ public class ConnectionListener implements Listener {
             player.getInventory().addItem(voteTeam);
             player.getInventory().addItem(voteKit);
             player.getInventory().addItem(playerStatistic);
+
+            PlayerStatistic playerStatistic = skyWars.getPlayerStatistic().get(player.getUniqueId());
+
+            /* Скорборд */
+            new PersonalSidebarBuilder()
+                    .setDisplayName(new SimpleText("§c§lSky§f§lWars"))
+                    .setName(player.getName())
+                    .setOwner(player)
+                    .addText(13, new EmptyText())
+                    .addText(12, new SimpleText("§cСтатистика:"))
+                    .addText(11, () -> "Убито: §e" + playerStatistic.getKills())
+                    .addText(10, () -> "Побед: §e" + playerStatistic.getWins())
+                    .addText(9,  () -> playerStatistic.getCurrentKit().getSettable().getName())
+                    .addText(8,  new EmptyText())
+                    .addText(7,  new SimpleText("§cСтадия:"))
+                    .addText(6,  () -> skyWars.getGameCycle().getGameStatus().getName())
+                    .addText(5,  new EmptyText())
+                    .addText(4,  new SimpleText("§cСервер:"))
+                    .addText(3,  () -> "Живых: §e" + skyWars.getPlayers().size())
+                    .addText(2,  () -> "Онлайн: §e" + Bukkit.getOnlinePlayers().size())
+                    .addText(1,  () -> "Время: §e" + String.format("%02d:%02d", skyWars.getGameCycle().getTime() / 60, skyWars.getGameCycle().getTime() % 60))
+                    .addText(0,  new ScrollableText("www.yamycraft.ru", "§b", 1, 6))
+                    .build(new Updater(skyWars, 20))
+                    .sendToPlayer(player);
         } else
             player.setGameMode(GameMode.SPECTATOR);
     }

@@ -10,11 +10,11 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum GameStatus {
 
-    STARTING(20, "Начало"),
-    STARTED(200, "Игра"),
-    REOPEN(220, "Сундуки перезаполнены"),
-    DEATH_MATCH(300, "Последний бой"),
-    ENDING(400, "Игра закончена"),
+    STARTING(20, "- Начало"),
+    STARTED(200, "- Игра"),
+    REOPEN(220, "- Перезаполнение"),
+    DEATH_MATCH(300, "- Последний бой"),
+    ENDING(400, "- Игра закончена"),
     ;
 
     private int time;
